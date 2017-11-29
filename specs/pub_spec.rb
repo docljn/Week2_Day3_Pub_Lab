@@ -71,7 +71,7 @@ class TestPub < MiniTest::Test
   #   assert_equal(2, choice.units)
   # end
 
-  # refactored to return item not drink
+  ## refactored to return item not drink
   def test_pub_returns_item_by_name
     gin = Drink.new("Gin", 7, 2)
     vodka = Drink.new("Vodka", 4, 2)

@@ -11,25 +11,26 @@ class Customer
     @intoxication = intoxication
   end
 
-  def can_afford?(drink)
-    @wallet >= drink.price
+  def can_afford?(item)
+    @wallet >= item.price
   end
 
-  def pay_for(drink)
-    @wallet -= drink.price
+  def pay_for(item)
+    @wallet -= item.price
   end
 
-  def consume(drink)
-    @intoxication += drink.units
+  def consume(item)
+    @intoxication += item.units if item.units != nil
+
   end
 
 
-  def buy_drink(pub, drink_name)
-    drink = pub.select_drink(drink_name)
-    if drink != nil && can_afford?(drink) && pub.will_serve?(self)
-      pay_for(drink)
-      pub.sell(drink)
-      consume(drink)
+  def buy_drink(pub, item_name)
+    item = pub.select_item(item_name)
+    if item != nil && can_afford?(item) && pub.will_serve?(self)
+      pay_for(item)
+      pub.sell(item)
+      consume(item)
     else
       return "Transaction declined"
     end
