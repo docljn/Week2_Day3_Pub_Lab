@@ -12,7 +12,11 @@ class Pub
     @till += amount
   end
 
-  def select_drink(drink_name)
+  def select_item(drink_name)
+    # should probably change drinks to stock,
+    # but here is where I need to know how to
+    # make a change to the pub structure
+    # not affect any of the other classes....
     for drink in @drinks
       return drink if drink.name == drink_name.capitalize
     end

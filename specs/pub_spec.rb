@@ -2,6 +2,7 @@ require("minitest/autorun")
 require("minitest/rg")
 require_relative("../pub")
 require_relative("../drink")
+require_relative("../food")
 require_relative("../customer")
 
 
@@ -59,16 +60,38 @@ class TestPub < MiniTest::Test
     assert_equal(expected, actual)
   end
 
-  def test_pub_returns_drink_by_name
+  # def test_pub_returns_drink_by_name
+  #   gin = Drink.new("Gin", 7, 2)
+  #   vodka = Drink.new("Vodka", 4, 2)
+  #   ccs = Pub.new("ccs", 1000, [gin, vodka])
+  #   kris = Customer.new("Kris", 50, 42)
+  #
+  #   choice = ccs.select_drink("gin")
+  #   assert_equal(7, choice.price)
+  #   assert_equal(2, choice.units)
+  # end
+
+  # refactored to return item not drink
+  def test_pub_returns_item_by_name
     gin = Drink.new("Gin", 7, 2)
     vodka = Drink.new("Vodka", 4, 2)
-    ccs = Pub.new("ccs", 1000, [gin, vodka])
+    chips = Food.new("Chips", 5, 3)
+    kebab = Food.new("Kebab", 8, 5)
+    pakora = Food.new("Pakora", 7, 4)
+    ccs = Pub.new("ccs", 1000, [gin, vodka, chips, kebab, pakora])
     kris = Customer.new("Kris", 50, 42)
 
-    choice = ccs.select_drink("gin")
-    assert_equal(7, choice.price)
-    assert_equal(2, choice.units)
+    drink_choice = ccs.select_item("gin")
+    assert_equal(7, drink_choice.price)
+    assert_equal(2, drink_choice.units)
+
+    food_choice = ccs.select_item("pakora")
+    assert_equal(7, food_choice.price)
+    assert_equal(4, food_choice.rejuvenation)
+
+
   end
+
 
   def test_sell_drink__drink_in_stock
     gin = Drink.new("Gin", 7, 2)
