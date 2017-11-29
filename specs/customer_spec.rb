@@ -17,7 +17,7 @@ class TestCustomer < MiniTest::Test
   end
 
   def test_customer_can_buy_drink__age_over_18
-    drink = Drink.new("Gin", 6)
+    drink = Drink.new("Gin", 6, 2)
     pub = Pub.new("Chanter", 1000, [drink])
     customer = Customer.new("Olga", 100, 21)
 
@@ -29,7 +29,7 @@ class TestCustomer < MiniTest::Test
   end
 
   def test_customer_can_buy_drink_insufficient_funds
-    drink = Drink.new("Gin", 6)
+    drink = Drink.new("Gin", 6, 2)
     pub = Pub.new("Chanter", 1000, [drink])
     customer = Customer.new("Kris", 2, 21)
 
@@ -42,7 +42,7 @@ class TestCustomer < MiniTest::Test
   end
 
   def test_customer_can_afford_drink_true
-    drink = Drink.new("Gin", 6)
+    drink = Drink.new("Gin", 6, 2)
     customer = Customer.new("Olga", 100, 21)
 
     expected = true
@@ -52,7 +52,7 @@ class TestCustomer < MiniTest::Test
   end
 
   def test_customer_can_afford_drink_false
-    drink = Drink.new("Gin", 6)
+    drink = Drink.new("Gin", 6, 2)
     customer = Customer.new("Olga", 4, 21)
 
     expected = false
@@ -61,7 +61,7 @@ class TestCustomer < MiniTest::Test
   end
 
   def test_customer_can_buy_drink__under18
-    drink = Drink.new("Gin", 6)
+    drink = Drink.new("Gin", 6, 2)
     pub = Pub.new("Chanter", 1000, [drink])
     lorna = Customer.new("Lorna", 100, 12)
 
@@ -69,5 +69,17 @@ class TestCustomer < MiniTest::Test
     expected = 100
     actual = lorna.wallet
     assert_equal(expected, actual)
+  end
+
+  def test_customer_intoxication_level_increases
+    drink = Drink.new("Gin", 6, 2)
+    pub = Pub.new("Chanter", 1000, [drink])
+    olga = Customer.new("Olga", 50, 21)
+
+    olga.buy_drink(pub, drink)
+    expected = 2
+    actual = olga.intoxication
+    assert_equal(expected, actual)
+
   end
 end
