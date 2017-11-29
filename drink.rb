@@ -1,12 +1,13 @@
 class Drink
 
-  attr_reader :name, :price
+  attr_reader :name, :price, :units
 
-  def initialize(name, price)
+  # all information about a drink should be publicly readable
+
+  def initialize(name, price, units)
     @name = name
     @price = price
+    @units = units
   end
-
-
 
 end

@@ -2,10 +2,11 @@ class Customer
 
   attr_reader :name, :wallet, :age
 
-  def initialize(name, wallet, age)
+  def initialize(name, wallet, age, intoxication=0)
     @name = name
     @wallet = wallet
     @age = age
+    @intoxication = intoxication
   end
 
   def can_afford?(drink)
