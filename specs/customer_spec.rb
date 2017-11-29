@@ -84,11 +84,18 @@ class TestCustomer < MiniTest::Test
   def test_customer_pay_for_drink
     drink = Drink.new("Gin", 6, 2)
     lorna = Customer.new("Lorna", 100, 32)
-    # pub = Pub.new("Chanter", 1000, [drink])
 
     lorna.pay_for(drink)
-
     assert_equal(94, lorna.wallet)
+
+  end
+
+  def test_customer_consumes_drink
+    drink = Drink.new("Wine", 8, 3)
+    lorna = Customer.new("Lorna", 100, 32)
+    
+    lorna.consume(drink)
+    assert_equal(3, lorna.intoxication)
 
   end
 

@@ -41,7 +41,6 @@ class TestPub < MiniTest::Test
     result = ccs.add_money(10)
   end
 
-
   def test_pub_will_serve_customer__over18
     ccs = Pub.new("ccs", 1000, [])
     kris = Customer.new("Kris", 50, 42)
@@ -71,13 +70,28 @@ class TestPub < MiniTest::Test
     assert_equal(2, choice.units)
   end
 
-  
+  def test_sell_drink__drink_in_stock
+    gin = Drink.new("Gin", 7, 2)
+    vodka = Drink.new("Vodka", 4, 2)
+    ccs = Pub.new("ccs", 1000, [gin, vodka])
+    kris = Customer.new("Kris", 50, 42)
 
+    ccs.sell(vodka)
+    assert_equal(1004, ccs.till)
+  end
 
-  ## REFACTORING IDEAS ##
-  # pub tells customer price of drink by name
-  # if drink not in pub, then ????
+  def test_sell_drink__drink_not_in_stock
+    gin = Drink.new("Gin", 7, 2)
+    vodka = Drink.new("Vodka", 4, 2)
+    wine = Drink.new("Wine", 8, 4)
+    # need to instantiate wine otherwise fails due to
+    # unknown method/variable
+    ccs = Pub.new("ccs", 1000, [gin, vodka])
+    kris = Customer.new("Kris", 50, 42)
 
-  # pub can total up drinks order?
+    ccs.sell(wine)
+    assert_equal(1000, ccs.till)
+
+  end
 
 end
