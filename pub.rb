@@ -12,10 +12,9 @@ class Pub
     @till += amount
   end
 
-  def will_serve?(age)
+  def will_serve?(customer)
     # Pub checks customer age before serving
-    return true if age >= 18
-    return false if age < 18
+    customer.age >= 18
   end
 end
 

@@ -19,7 +19,8 @@ class Customer
   def buy_drink(pub, drink)
     # check if pub will serve customer
     # check if customer can afford drink
-    if can_afford?(drink) && pub.will_serve?(@age)
+    p self
+    if can_afford?(drink) && pub.will_serve?(self)
       # step 1. customer wallet reduces by price of drink.
       @wallet -= drink.price
       #step 2. pub till increases by drink sold value.
