@@ -11,15 +11,16 @@ class Customer
     @intoxication = intoxication
   end
 
-  def can_afford?(price)
-    # Check if customer's wallet is greater than or equal
-    # to the price
-    @wallet >= price
+  def can_afford?(drink)
+    @wallet >= drink.price
   end
+  # REFACTORING buy_drink:
 
-  # def pay_for(drink_name)
-  # end
+  # needs sell(drink) in pub
 
+  def pay_for(drink)
+    @wallet -= drink.price
+  end
 
 
 
@@ -27,9 +28,8 @@ class Customer
     # check if pub will serve customer &&
     # check if customer can afford drink
     drink = pub.select_drink(drink_name)
-    if can_afford?(drink.price) && pub.will_serve?(self)
-      # step 1. customer wallet reduces by price of drink.
-      @wallet -= drink.price #consider separate method?
+    if can_afford?(drink) && pub.will_serve?(self)
+      pay_for(drink)
       #step 2. pub till increases by drink sold value.
       # refactor: pub sells drink?
       pub.add_money(drink.price)

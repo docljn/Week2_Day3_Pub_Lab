@@ -71,6 +71,8 @@ class TestPub < MiniTest::Test
     assert_equal(2, choice.units)
   end
 
+  
+
 
   ## REFACTORING IDEAS ##
   # pub tells customer price of drink by name

@@ -27,7 +27,7 @@ class TestCustomer < MiniTest::Test
 
 
     expected = true
-    actual = customer.can_afford?(gin.price)
+    actual = customer.can_afford?(gin)
     assert_equal(expected, actual)
 
   end
@@ -40,7 +40,7 @@ class TestCustomer < MiniTest::Test
     pub = Pub.new("Chanter", 1000, [gin])
 
     expected = false
-    actual = customer.can_afford?(gin.price)
+    actual = customer.can_afford?(gin)
     assert_equal(expected, actual)
   end
 
@@ -80,18 +80,17 @@ class TestCustomer < MiniTest::Test
 
   end
 
-  # REFACTORING buy_drink: need pay_for(drink)
 
-  # def test_customer_pay_for_drink
-  #   drink = Drink.new("Gin", 6, 2)
-  #   lorna = Customer.new("Lorna", 100, 12)
-  #   # pub = Pub.new("Chanter", 1000, [drink])
-  #
-  #   lorna.pay_for("gin")
-  #
-  #   assert_equal(94, lorna.wallet)
-  #
-  # end
+  def test_customer_pay_for_drink
+    drink = Drink.new("Gin", 6, 2)
+    lorna = Customer.new("Lorna", 100, 32)
+    # pub = Pub.new("Chanter", 1000, [drink])
+
+    lorna.pay_for(drink)
+
+    assert_equal(94, lorna.wallet)
+
+  end
 
 
 

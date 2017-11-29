@@ -24,6 +24,8 @@ class Pub
     # Pub checks customer age before serving
     customer.age >= 18
   end
+
+
 end
 
 # A Pub should have a name, a till, and a collection of drinks
