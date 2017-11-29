@@ -23,8 +23,8 @@ class TestPub < MiniTest::Test
   end
 
   def test_pub_has_drinks
-    tennants = Drink.new("Tennants", 5)
-    gin = Drink.new("Gin", 7)
+    tennants = Drink.new("Tennants", 5, 2)
+    gin = Drink.new("Gin", 7, 2)
     drinks = [tennants, gin]
     cloisters = Pub.new("Cloisters", 250, drinks)
     expected = drinks
@@ -33,8 +33,8 @@ class TestPub < MiniTest::Test
   end
 
   def test_add_money_to_till
-    tennants = Drink.new("Tennants", 5)
-    gin = Drink.new("Gin", 7)
+    tennants = Drink.new("Tennants", 5, 2)
+    gin = Drink.new("Gin", 7, 2)
     drinks = [tennants, gin]
     ccs = Pub.new("ccs", 1000, drinks)
     expected = 1010
@@ -59,5 +59,23 @@ class TestPub < MiniTest::Test
     actual = ccs.will_serve?(jennifer)
     assert_equal(expected, actual)
   end
+
+  def test_pub_returns_drink_by_name
+    gin = Drink.new("Gin", 7, 2)
+    vodka = Drink.new("Vodka", 4, 2)
+    ccs = Pub.new("ccs", 1000, [gin, vodka])
+    kris = Customer.new("Kris", 50, 42)
+
+    choice = ccs.select_drink("gin")
+    assert_equal(7, choice.price)
+    assert_equal(2, choice.units)
+  end
+
+
+  ## REFACTORING IDEAS ##
+  # pub tells customer price of drink by name
+  # if drink not in pub, then ????
+
+  # pub can total up drinks order?
 
 end

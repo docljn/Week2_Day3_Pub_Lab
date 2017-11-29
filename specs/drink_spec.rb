@@ -19,4 +19,8 @@ class TestDrink < MiniTest::Test
     assert_equal(2, drink.units)
   end
 
+  ## REFACTORING IDEAS ##
+
+  
+
 end

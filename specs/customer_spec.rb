@@ -16,70 +16,83 @@ class TestCustomer < MiniTest::Test
     assert_equal(30, customer.wallet)
   end
 
-  def test_customer_can_buy_drink__age_over_18
-    drink = Drink.new("Gin", 6, 2)
-    pub = Pub.new("Chanter", 1000, [drink])
-    customer = Customer.new("Olga", 100, 21)
-
-    customer.buy_drink(pub, drink)
-    expected = 94
-    actual = customer.wallet
-    assert_equal(expected, actual)
-    assert_equal(1006,pub.till)
-  end
-
-  def test_customer_can_buy_drink_insufficient_funds
-    drink = Drink.new("Gin", 6, 2)
-    pub = Pub.new("Chanter", 1000, [drink])
-    customer = Customer.new("Kris", 2, 21)
-
-    customer.buy_drink(pub, drink)
-    expected = 2
-    actual = customer.wallet
-    assert_equal(expected, actual)
-    assert_equal(1000,pub.till)
-
-  end
 
   def test_customer_can_afford_drink_true
-    drink = Drink.new("Gin", 6, 2)
+    gin = Drink.new("Gin", 6, 2)
+    vodka = Drink.new("Vodka", 4, 2)
     customer = Customer.new("Olga", 100, 21)
+    # need a pub after refactoring find drink
+    # as now the pub finds a drink by name
+    pub = Pub.new("Chanter", 1000, [gin, vodka])
+
 
     expected = true
-    actual = customer.can_afford?(drink)
+    actual = customer.can_afford?(gin.price)
     assert_equal(expected, actual)
 
   end
 
   def test_customer_can_afford_drink_false
-    drink = Drink.new("Gin", 6, 2)
+    gin = Drink.new("Gin", 6, 2)
     customer = Customer.new("Olga", 4, 21)
+    # need a pub after refactoring find drink
+    # as now the pub finds a drink by name
+    pub = Pub.new("Chanter", 1000, [gin])
 
     expected = false
-    actual = customer.can_afford?(drink)
+    actual = customer.can_afford?(gin.price)
     assert_equal(expected, actual)
   end
 
-  def test_customer_can_buy_drink__under18
-    drink = Drink.new("Gin", 6, 2)
-    pub = Pub.new("Chanter", 1000, [drink])
+
+  def test_customer_can_buy_drink__under18_refused
+    gin = Drink.new("Gin", 6, 2)
+    pub = Pub.new("Chanter", 1000, [gin])
     lorna = Customer.new("Lorna", 100, 12)
 
-    lorna.buy_drink(pub, drink)
+    lorna.buy_drink(pub, "gin")
     expected = 100
     actual = lorna.wallet
     assert_equal(expected, actual)
   end
+
+  def test_customer_can_buy_drink__over18_insufficient_funds
+    gin = Drink.new("Gin", 6, 2)
+    chanter = Pub.new("Chanter", 1000, [gin])
+    lorna = Customer.new("Lorna", 4, 21)
+
+    lorna.buy_drink(chanter, "gin")
+    expected = 4
+    actual = lorna.wallet
+    assert_equal(expected, actual)
+  end
+
 
   def test_customer_intoxication_level_increases
     drink = Drink.new("Gin", 6, 2)
     pub = Pub.new("Chanter", 1000, [drink])
     olga = Customer.new("Olga", 50, 21)
 
-    olga.buy_drink(pub, drink)
+    olga.buy_drink(pub, "gin")
     expected = 2
     actual = olga.intoxication
     assert_equal(expected, actual)
 
   end
+
+  # REFACTORING buy_drink: need pay_for(drink)
+
+  # def test_customer_pay_for_drink
+  #   drink = Drink.new("Gin", 6, 2)
+  #   lorna = Customer.new("Lorna", 100, 12)
+  #   # pub = Pub.new("Chanter", 1000, [drink])
+  #
+  #   lorna.pay_for("gin")
+  #
+  #   assert_equal(94, lorna.wallet)
+  #
+  # end
+
+
+
 end
