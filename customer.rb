@@ -20,7 +20,9 @@ class Customer
   end
 
   def consume(item)
-    @intoxication += item.units if item.units != nil
+    if item.units != nil
+      @intoxication += item.units
+    end
 
   end
 
