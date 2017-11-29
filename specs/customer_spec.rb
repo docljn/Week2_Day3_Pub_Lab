@@ -75,18 +75,18 @@ class TestCustomer < MiniTest::Test
 
   end
 
-  # def test_customer_intoxication_level_decreases
-  #   drink = Drink.new("Gin", 6, 2)
-  #   food = Food.new("Kebab", 8, 5)
-  #   pub = Pub.new("Chanter", 1000, [drink])
-  #   olga = Customer.new("Olga", 50, 21)
-  #
-  #   olga.buy_item(pub, "gin")
-  #   expected = 2
-  #   actual = olga.intoxication
-  #   assert_equal(expected, actual)
-  #
-  # end
+  def test_customer_intoxication_level_decreases
+    drink = Drink.new("Gin", 6, 2)
+    food = Food.new("Kebab", 8, 5)
+    pub = Pub.new("Chanter", 1000, [drink, food])
+    olga = Customer.new("Olga", 50, 21, 10)
+
+    olga.buy_item(pub, "kebab")
+    expected = 5
+    actual = olga.intoxication
+    assert_equal(expected, actual)
+
+  end
 
 
   def test_customer_can_buy_drink__under18_refused

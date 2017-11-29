@@ -20,10 +20,12 @@ class Customer
   end
 
   def consume(item)
-    if item.units != nil
+    if item.class == Drink
       @intoxication += item.units
     end
-
+    if item.class == Food
+      @intoxication -= item.rejuvenation
+    end
   end
 
 
