@@ -27,7 +27,7 @@ class Customer
   end
 
 
-  def buy_drink(pub, item_name)
+  def buy_item(pub, item_name)
     item = pub.select_item(item_name)
     if item != nil && can_afford?(item) && pub.will_serve?(self)
       pay_for(item)

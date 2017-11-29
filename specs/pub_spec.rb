@@ -93,7 +93,7 @@ class TestPub < MiniTest::Test
   end
 
 
-  def test_sell_drink__drink_in_stock
+  def test_sell_item__drink_in_stock
     gin = Drink.new("Gin", 7, 2)
     vodka = Drink.new("Vodka", 4, 2)
     ccs = Pub.new("ccs", 1000, [gin, vodka])
@@ -103,7 +103,7 @@ class TestPub < MiniTest::Test
     assert_equal(1004, ccs.till)
   end
 
-  def test_sell_drink__drink_not_in_stock
+  def test_sell_item__drink_not_in_stock
     gin = Drink.new("Gin", 7, 2)
     vodka = Drink.new("Vodka", 4, 2)
     wine = Drink.new("Wine", 8, 4)
@@ -116,5 +116,7 @@ class TestPub < MiniTest::Test
     assert_equal(1000, ccs.till)
 
   end
+
+
 
 end

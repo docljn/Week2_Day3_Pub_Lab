@@ -2,6 +2,7 @@ require("minitest/autorun")
 require("minitest/rg")
 require_relative("../customer")
 require_relative("../drink")
+require_relative("../food")
 require_relative("../pub")
 
 class TestCustomer < MiniTest::Test
@@ -67,12 +68,25 @@ class TestCustomer < MiniTest::Test
     pub = Pub.new("Chanter", 1000, [drink])
     olga = Customer.new("Olga", 50, 21)
 
-    olga.buy_drink(pub, "gin")
+    olga.buy_item(pub, "gin")
     expected = 2
     actual = olga.intoxication
     assert_equal(expected, actual)
 
   end
+
+  # def test_customer_intoxication_level_decreases
+  #   drink = Drink.new("Gin", 6, 2)
+  #   food = Food.new("Kebab", 8, 5)
+  #   pub = Pub.new("Chanter", 1000, [drink])
+  #   olga = Customer.new("Olga", 50, 21)
+  #
+  #   olga.buy_item(pub, "gin")
+  #   expected = 2
+  #   actual = olga.intoxication
+  #   assert_equal(expected, actual)
+  #
+  # end
 
 
   def test_customer_can_buy_drink__under18_refused
@@ -80,7 +94,7 @@ class TestCustomer < MiniTest::Test
     chanter = Pub.new("Chanter", 1000, [gin])
     lorna = Customer.new("Lorna", 100, 12)
 
-    lorna.buy_drink(chanter, "gin")
+    lorna.buy_item(chanter, "gin")
     assert_equal(100, lorna.wallet)
     assert_equal(0, lorna.intoxication)
     assert_equal(1000, chanter.till)
@@ -91,7 +105,7 @@ class TestCustomer < MiniTest::Test
     chanter = Pub.new("Chanter", 1000, [gin])
     lorna = Customer.new("Lorna", 4, 21)
 
-    lorna.buy_drink(chanter, "gin")
+    lorna.buy_item(chanter, "gin")
     assert_equal(4, lorna.wallet)
     assert_equal(0, lorna.intoxication)
     assert_equal(1000, chanter.till)
@@ -105,7 +119,7 @@ class TestCustomer < MiniTest::Test
     chanter = Pub.new("Chanter", 1000, [gin])
     lorna = Customer.new("Lorna", 40, 21)
 
-    lorna.buy_drink(chanter, "wine")
+    lorna.buy_item(chanter, "wine")
     assert_equal(40, lorna.wallet)
     assert_equal(0, lorna.intoxication)
     assert_equal(1000, chanter.till)
@@ -122,7 +136,7 @@ class TestCustomer < MiniTest::Test
     chanter = Pub.new("Chanter", 1000, [gin, wine])
     lorna = Customer.new("Lorna", 40, 21, 20)
 
-    lorna.buy_drink(chanter, "wine")
+    lorna.buy_item(chanter, "wine")
     expected = 40
     actual = lorna.wallet
     assert_equal(expected, actual)
