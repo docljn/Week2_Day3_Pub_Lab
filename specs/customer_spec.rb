@@ -23,7 +23,7 @@ class TestCustomer < MiniTest::Test
     customer = Customer.new("Olga", 100, 21)
     # need a pub after refactoring find drink
     # as now the pub finds a drink by name
-    pub = Pub.new("Chanter", 1000, [gin, vodka])
+    chanter = Pub.new("Chanter", 1000, [gin, vodka])
 
 
     expected = true
@@ -37,36 +37,30 @@ class TestCustomer < MiniTest::Test
     customer = Customer.new("Olga", 4, 21)
     # need a pub after refactoring find drink
     # as now the pub finds a drink by name
-    pub = Pub.new("Chanter", 1000, [gin])
+    chanter = Pub.new("Chanter", 1000, [gin])
 
     expected = false
     actual = customer.can_afford?(gin)
     assert_equal(expected, actual)
   end
 
+  def test_customer_pay_for_drink
+    drink = Drink.new("Gin", 6, 2)
+    lorna = Customer.new("Lorna", 100, 32)
 
-  def test_customer_can_buy_drink__under18_refused
-    gin = Drink.new("Gin", 6, 2)
-    pub = Pub.new("Chanter", 1000, [gin])
-    lorna = Customer.new("Lorna", 100, 12)
+    lorna.pay_for(drink)
+    assert_equal(94, lorna.wallet)
 
-    lorna.buy_drink(pub, "gin")
-    expected = 100
-    actual = lorna.wallet
-    assert_equal(expected, actual)
   end
 
-  def test_customer_can_buy_drink__over18_insufficient_funds
-    gin = Drink.new("Gin", 6, 2)
-    chanter = Pub.new("Chanter", 1000, [gin])
-    lorna = Customer.new("Lorna", 4, 21)
+  def test_customer_consumes_drink
+    drink = Drink.new("Wine", 8, 3)
+    lorna = Customer.new("Lorna", 100, 32)
 
-    lorna.buy_drink(chanter, "gin")
-    expected = 4
-    actual = lorna.wallet
-    assert_equal(expected, actual)
+    lorna.consume(drink)
+    assert_equal(3, lorna.intoxication)
+
   end
-
 
   def test_customer_intoxication_level_increases
     drink = Drink.new("Gin", 6, 2)
@@ -81,23 +75,61 @@ class TestCustomer < MiniTest::Test
   end
 
 
-  def test_customer_pay_for_drink
-    drink = Drink.new("Gin", 6, 2)
-    lorna = Customer.new("Lorna", 100, 32)
+  def test_customer_can_buy_drink__under18_refused
+    gin = Drink.new("Gin", 6, 2)
+    chanter = Pub.new("Chanter", 1000, [gin])
+    lorna = Customer.new("Lorna", 100, 12)
 
-    lorna.pay_for(drink)
-    assert_equal(94, lorna.wallet)
-
+    lorna.buy_drink(chanter, "gin")
+    assert_equal(100, lorna.wallet)
+    assert_equal(0, lorna.intoxication)
+    assert_equal(1000, chanter.till)
   end
 
-  def test_customer_consumes_drink
-    drink = Drink.new("Wine", 8, 3)
-    lorna = Customer.new("Lorna", 100, 32)
-    
-    lorna.consume(drink)
-    assert_equal(3, lorna.intoxication)
+  def test_customer_can_buy_drink__over18__insufficient_funds
+    gin = Drink.new("Gin", 6, 2)
+    chanter = Pub.new("Chanter", 1000, [gin])
+    lorna = Customer.new("Lorna", 4, 21)
 
+    lorna.buy_drink(chanter, "gin")
+    assert_equal(4, lorna.wallet)
+    assert_equal(0, lorna.intoxication)
+    assert_equal(1000, chanter.till)
   end
+
+  def test_customer_can_buy_drink__over18__sufficient_funds__drink_not_in_stock
+    gin = Drink.new("Gin", 6, 2)
+    wine = Drink.new("Wine", 8, 4)
+    # need to instantiate wine otherwise fails due to
+    # unknown method/variable
+    chanter = Pub.new("Chanter", 1000, [gin])
+    lorna = Customer.new("Lorna", 40, 21)
+
+    lorna.buy_drink(chanter, "wine")
+    assert_equal(40, lorna.wallet)
+    assert_equal(0, lorna.intoxication)
+    assert_equal(1000, chanter.till)
+  end
+
+
+
+
+  def test_customer_can_buy_drink__over18__sufficient_funds__drink_in_stock__too_drunk
+    gin = Drink.new("Gin", 6, 2)
+    wine = Drink.new("Wine", 8, 4)
+    # need to instantiate wine otherwise fails due to
+    # unknown method/variable
+    chanter = Pub.new("Chanter", 1000, [gin, wine])
+    lorna = Customer.new("Lorna", 40, 21, 20)
+
+    lorna.buy_drink(chanter, "wine")
+    expected = 40
+    actual = lorna.wallet
+    assert_equal(expected, actual)
+  end
+
+
+
 
 
 

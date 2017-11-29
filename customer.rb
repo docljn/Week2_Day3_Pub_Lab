@@ -26,7 +26,7 @@ class Customer
 
   def buy_drink(pub, drink_name)
     drink = pub.select_drink(drink_name)
-    if can_afford?(drink) && pub.will_serve?(self)
+    if drink != nil && can_afford?(drink) && pub.will_serve?(self)
       pay_for(drink)
       pub.sell(drink)
       consume(drink)

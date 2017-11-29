@@ -13,16 +13,16 @@ class Pub
   end
 
   def select_drink(drink_name)
-    drink = nil
     for drink in @drinks
       return drink if drink.name == drink_name.capitalize
     end
+    return nil
   end
 
 
   def will_serve?(customer)
     # Pub checks customer age before serving
-    customer.age >= 18
+    customer.age >= 18  && customer.intoxication < 15
   end
 
   def sell(drink)
